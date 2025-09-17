@@ -22,14 +22,16 @@ export default function TodoList() {
 
   const fetchTodo = async (): Promise<void> => {
     setIsLoading(true);
-    try {
-      const response = await axios.get(`http://localhost:8080/Todo`);
-      setTodos(response.data);
-    } catch (error) {
-      console.log("Error: ", error);
-    } finally {
-      setIsLoading(false);
-    }
+    setTimeout(async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/Todo`);
+        setTodos(response.data);
+      } catch (error) {
+        console.log("Error: ", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }, 2000);
   };
 
   useEffect(() => {
@@ -138,7 +140,11 @@ export default function TodoList() {
 
   return (
     <div className="todo-container">
-      {isLoading && <div className="loading">Đang tải dữ liệu...</div>}
+      {isLoading && (
+        <div className="loading">
+          <div className="spinner"></div>
+        </div>
+      )}
       <h2 className="todo-title">Quản lý công việc</h2>
 
       <div className="todo-form">
@@ -230,7 +236,7 @@ export default function TodoList() {
             <div className="modal-header">
               <h3>Xác nhận</h3>
               <button className="modal-close" onClick={handleCancelDelete}>
-                <X size={18} />
+                {/* <X size={18} /> */}
               </button>
             </div>
             <div className="modal-body">
